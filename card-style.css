@@ -1,7 +1,16 @@
-#card{
+.card{
   border-width: 5px;
   border-style: solid;
   border-color: rgb(46, 44, 44);
   border-radius: 25px;
   width: 400px;
+}
+
+.card-title{
+}
+
+.card-description{
+}
+
+.card-date{
 }
