@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <link href="form-style.css" rel="stylesheet">
+  <!-- <link href="index.css" rel="stylesheet"> -->
 </head>
 <body>
   <form name="card-form">
@@ -23,7 +23,8 @@
       <input type="text" name="description">
     </div>
     <input type="reset" value="Сбросить">
-    <button onclick="getTemplate(document.getElementsByName('title')[0].value, document.getElementsByName('description')[0].value)">Добавить</button>
+    <!-- return false for preventing the page from refreshing -->
+    <button onclick="handleAddButton(document.getElementsByName('title')[0].value, document.getElementsByName('description')[0].value);return false">Добавить</button>
   </form>
   <script src='index.js'></script>
 </body>
