@@ -3,22 +3,34 @@ if (localStorage.getItem('cards_storage') === null) {
   localStorage.setItem('cards_storage', JSON.stringify([]))
 }
 
-const getTemplateItem = (title, description, location, id) => {
+const getTemplateItem = ({title, description, location, id, done}) => {
   return `<p>Название: ${title}</p>
   <p>Описание: ${description}</p>
   <p>Место: ${location}</p>
-  <input type="checkbox">
+  <input type="checkbox" ${done ? 'checked' : ''} onchange="toggleCardStatus(${id})">
   <button type="button" onclick="deleteFromStorage(${id})">Удалить</button>`;
 }
 
 const handleAddButton = (event) => {
-  console.log(localStorage)
   // adding elements values to variables and save state
+  const card = fetchCardValues()
+  pushCardToLocalStorage(card)
+  renderItem(card)
+  event.stopPropagation()
+}
+
+const toggleCardStatus = (cardId) => {
+  let parsedCardsStorage = JSON.parse(localStorage.cards_storage)
+  parsedCardsStorage.forEach(card => card.id === cardId ? card.done = !card.done : card)
+  localStorage.setItem('cards_storage', JSON.stringify(parsedCardsStorage))
+  location.reload()
+}
+
+const fetchCardValues = () => {
   const title = document.getElementsByName('title')[0].value
   const description = document.getElementsByName('description')[0].value
   const location = document.getElementsByName('location')[0]
   const selectedLocationText = location.options[location.selectedIndex].text
-  console.log(localStorage)
   const cardData = {
     id: Date.now(),
     title: title,
@@ -26,9 +38,7 @@ const handleAddButton = (event) => {
     location: selectedLocationText,
     done: false
   }
-  pushCardToLocalStorage(cardData)
-  renderItem(cardData)
-  event.stopPropagation()
+  return cardData
 }
 
 const deleteFromStorage = (cardId) => {
@@ -53,7 +63,7 @@ const renderItems = () => {
 
 const renderItem = (card) => {
   const div = document.createElement('div')
-  div.innerHTML= getTemplateItem(card.title, card.description, card.location, card.id)
+  div.innerHTML= getTemplateItem(card)
   document.body.append(div)
 }
 
