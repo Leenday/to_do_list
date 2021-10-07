@@ -8,7 +8,7 @@ const getTemplateItem = ({title, description, location, id, done}) => {
   <p>Описание: ${description}</p>
   <p>Место: ${location}</p>
   <input type="checkbox" ${done ? 'checked' : ''} onchange="toggleCardStatus(${id})">
-  <button type="button" onclick="deleteFromStorage(${id})">Удалить</button>`;
+  <button type="button" onclick="deleteCard(${id})">Удалить</button>`;
 }
 
 const handleAddButton = (event) => {
@@ -23,7 +23,6 @@ const toggleCardStatus = (cardId) => {
   let parsedCardsStorage = JSON.parse(localStorage.cards_storage)
   parsedCardsStorage.forEach(card => card.id === cardId ? card.done = !card.done : card)
   localStorage.setItem('cards_storage', JSON.stringify(parsedCardsStorage))
-  location.reload()
 }
 
 const fetchCardValues = () => {
@@ -41,11 +40,11 @@ const fetchCardValues = () => {
   return cardData
 }
 
-const deleteFromStorage = (cardId) => {
+const deleteCard = (cardId) => {
+  document.getElementById(cardId).remove()
   let parsedCardsStorage = JSON.parse(localStorage.cards_storage)
   const refreshedCardsStorage = parsedCardsStorage.filter(card => card.id !== cardId)
   localStorage.setItem('cards_storage', JSON.stringify(refreshedCardsStorage))
-  location.reload()
 }
 
 const pushCardToLocalStorage = (card) => {
@@ -63,6 +62,7 @@ const renderItems = () => {
 
 const renderItem = (card) => {
   const div = document.createElement('div')
+  div.setAttribute('id', card.id)
   div.innerHTML= getTemplateItem(card)
   document.body.append(div)
 }
