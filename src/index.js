@@ -19,6 +19,10 @@ const handleAddButton = (event) => {
   event.stopPropagation()
 }
 
+// making it global for the HTML file
+// otherwise getting error handleAddButton is not defined
+window.handleAddButton = handleAddButton
+
 const toggleCardStatus = (cardId) => {
   let parsedCardsStorage = JSON.parse(localStorage.cards_storage)
   parsedCardsStorage.forEach(card => card.id === cardId ? card.done = !card.done : card)
@@ -56,7 +60,7 @@ const pushCardToLocalStorage = (card) => {
 }
 
 const renderItems = () => {
-  cards = JSON.parse(localStorage.cards_storage)
+  let cards = JSON.parse(localStorage.cards_storage)
   cards.forEach(card => renderItem(card))
 }
 
