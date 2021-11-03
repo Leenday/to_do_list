@@ -1,9 +1,10 @@
+import "./styles/index.css"
 
 if (localStorage.getItem('cards_storage') === null) {
   localStorage.setItem('cards_storage', JSON.stringify([]))
 }
 
-const getTemplateItem = ({title, description, location, id, done}) => {
+const getTemplateItem = ({ title, description, location, id, done }) => {
   return `<p>Название: ${title}</p>
   <p>Описание: ${description}</p>
   <p>Место: ${location}</p>
@@ -67,7 +68,7 @@ const renderItems = () => {
 const renderItem = (card) => {
   const div = document.createElement('div')
   div.setAttribute('id', card.id)
-  div.innerHTML= getTemplateItem(card)
+  div.innerHTML = getTemplateItem(card)
   document.body.append(div)
 }
 
