@@ -1,7 +1,9 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const path = require('path');
-const dotenv = require('dotenv');
-dotenv.config({ path: '.env' })
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require("path");
+const dotenv = require("dotenv");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const ESLintPlugin = require("eslint-webpack-plugin");
+dotenv.config({ path: ".env" });
 
 module.exports = {
   module: {
@@ -15,7 +17,7 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader"]
+        use: [MiniCssExtractPlugin.loader, "css-loader"]
       }
     ]
   },
@@ -27,13 +29,15 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'public/index.html',
+      template: "public/index.html",
     }),
+    new MiniCssExtractPlugin(),
+    new ESLintPlugin(),
   ],
   devtool: "source-map",
   devServer: {
-    static: ['public', 'src'],
+    static: ["public", "src"],
     hot: true,
     port: `${process.env.DEV_PORT}`,
   },
-}
+};
